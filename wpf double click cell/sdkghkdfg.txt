@@ -1,0 +1,102 @@
+private void DataGrid_MouseRightButtonUp(object sender,
+                                                  MouseButtonEventArgs e)
+{
+    DependencyObject dep = (DependencyObject)e.OriginalSource;
+
+    // iteratively traverse the visual tree
+    while ((dep != null) &amp;&amp;
+            !(dep is DataGridCell) &amp;&amp;
+            !(dep is DataGridColumnHeader))
+    {
+        dep = VisualTreeHelper.GetParent(dep);
+    }
+
+    if (dep == null)
+        return;
+
+    if (dep is DataGridColumnHeader)
+    {
+        DataGridColumnHeader columnHeader = dep as DataGridColumnHeader;
+        // do something
+    }
+
+    if (dep is DataGridCell)
+    {
+        DataGridCell cell = dep as DataGridCell;
+        // do something
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+if (dep is DataGridCell)
+{
+    DataGridCell cell = dep as DataGridCell;
+
+    // navigate further up the tree
+    while ((dep != null) &amp;&amp; !(dep is DataGridRow))
+    {
+        dep = VisualTreeHelper.GetParent(dep);
+    }
+
+    DataGridRow row = dep as DataGridRow;
+}
+
+
+
+
+
+private int FindRowIndex(DataGridRow row)
+{
+    DataGrid dataGrid =
+        ItemsControl.ItemsControlFromItemContainer(row)
+        as DataGrid;
+
+    int index = dataGrid.ItemContainerGenerator.
+        IndexFromContainer(row);
+
+    return index;
+}
+
+
+
+
+private object ExtractBoundValue(DataGridRow row,
+                                 DataGridCell cell)
+{
+    // find the column that this cell belongs to
+    DataGridBoundColumn col =
+       cell.Column as DataGridBoundColumn;
+
+    // find the property that this column is bound to
+    Binding binding = col.Binding as Binding;
+    string boundPropertyName = binding.Path.Path;
+
+    // find the object that is related to this row
+    object data = row.Item;
+
+    // extract the property value
+    PropertyDescriptorCollection properties =
+        TypeDescriptor.GetProperties(data);
+
+    PropertyDescriptor property = properties[boundPropertyName];
+    object value = property.GetValue(data);
+
+    return value;
+}
+
+
+
+

@@ -1,0 +1,10 @@
+﻿<Window x:Class="WpfDataGridMouseClicks.Window1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:dg="http://schemas.microsoft.com/wpf/2008/toolkit"
+    Title="Window1" Height="300" Width="300">
+    <DockPanel>        
+        <TextBlock Margin="10" DockPanel.Dock="Bottom" Name="ClickedItemDisplay"/>
+        <dg:DataGrid Name="DataGrid" MouseRightButtonUp="DataGrid_MouseRightButtonUp"/>
+    </DockPanel>
+</Window>
